@@ -1,0 +1,25 @@
+Results :
+Database: soccer_db
+Content: {
+  "accounts": {
+    "USER": [],
+    "HOST": [],
+    "CURRENT_CONNECTIONS": [],
+    "TOTAL_CONNECTIONS": [],
+    "MAX_SESSION_CONTROLLED_MEMORY": [],
+    "MAX_SESSION_TOTAL_MEMORY": [],
+    "id": [
+      "1324"
+    ],
+    "email": [
+      "player@player.htb"
+    ],
+    "username": [
+      "player"
+    ],
+    "password": [
+      "PlayerOftheMatch2022"
+    ]
+  }
+}
+

@@ -1,0 +1,113 @@
+
+Soccer:
+  - Rustscan:
+      - ports 22,80,9091
+  - Nmap:
+      - 9091 is HTTP
+
+  - Website soccer.htb:80:
+    - Enum versions:
+      - nginx:
+        - 1.18.0
+    - Enum subdomains:
+      - None
+    - Enum directories:
+      - /tiny
+
+    - H3K Tiny File Manager (http://soccer.htb/tiny):
+      - Test admin:admin on login:
+        - Wrong
+      - Check page source code for version:
+        - 2.4.3
+      - Found CVE-2021-45010:
+        - Authenticated RCE
+        - TODO:
+          - Enum 9091/tcp
+          - Look for TFM's default creds
+          - Try bruteforcing
+
+  - Website soccer.htb:9091:
+    - Enum directories:
+      - GET:
+        - None
+      - POST:
+        - None
+    - Enum subdomains:
+      - None
+
+  - Website soccer.htb:80:
+    - H3K Tiny File Manager (http://soccer.htb/tiny):
+      - TFM defaults creds:
+        - admin/admin@123:
+          - CORRECT
+      - CVE-2021-45010:
+        - Write exploit:
+          - exploit/CVE-2021-45010.py
+
+  - User:
+    - Read files:
+      - /etc/passwd:
+        - "player:1001"
+      - /home/player/.ssh/id_rsa:
+        - Not found
+      - /proc/*/environ:
+        - Nothing
+      - /proc/*/cmdline:
+        - Nothing
+      - /opt/:
+        - Empty
+
+    - Listening tcp ports:
+      - 9091 (http), 33060 (db), 3306 (db), 80 (http), 22 (ssh), 3000 (http)
+
+    - Website port 3000:
+      - Login (/login):
+        - Default creds:
+          - Incorrect
+        - SQL Injection:
+          - None
+      - Sign-up (/signup):
+        - Accepted POST encoding:
+          - form url encoded
+          - JSON
+        - SQLI/NoSQLI:
+          - None
+      - Check (/check):
+        - JavaScript:
+          - Websocket to "soc-player.soccer.htb:9091"
+        - Responses:
+          - "Ticket exists" on valid id
+          - "Ticket doesn't exist" even on errors
+        - Type Juggling:
+          - None
+        - SQLI/NoSQLI:
+          - Boolean-based:
+            - "1234 OR 1=1 #"
+            - Write exploit:
+              - exploit/BooleanBasedSQLI.py
+        - Database (soccer_db):
+          - accounts:
+            - "player:PlayerOftheMatch2022":
+              - VALID SSH CREDS
+
+  - Root:
+    - Lateral movements:
+      - No other users
+    - "sudo -l":
+      - player is not in sudoers
+    - "id":
+      - Only has user group 
+    - /etc/cron.d/:
+      - e2scrub_all
+      - php
+      - popularity-contest
+    - linpeas:
+      - doas.conf:
+        - "permit nopass player as root cmd /usr/bin/dstat"
+    - dstat (as root):
+      - Create external plugin:
+        - /usr/local/share/dstat/dstat_shell.py:
+          - "import os; os.execv('/bin/sh', ['sh'])"
+      - doas /usr/bin/dstat --shell:
+        - ROOT SHELL
+
