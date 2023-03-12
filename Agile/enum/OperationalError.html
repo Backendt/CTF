@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>sqlalchemy.exc.OperationalError: 
+(pymysql.err.OperationalError) (2006, "MySQL server has gone away 
+(BrokenPipeError(32, 'Broken pipe'))")
+[SQL: SELECT users.id AS users_id, users.username AS users_username, 
+users.hashed_password AS users_hashed_password 
+FROM users 
+WHERE users.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'admin', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+ // Werkzeug Debugger</title>
+    <link rel="stylesheet" href="OperationalError_fichiers/style.css">
+    <link rel="shortcut icon" href="OperationalError_fichiers/console.png">
+    <script src="OperationalError_fichiers/debugger.js"></script>
+    <script>
+      var CONSOLE_MODE = false,
+          EVALEX = true,
+          EVALEX_TRUSTED = false,
+          SECRET = "6oqqXr4iuXz7CmkNSUEk";
+    </script>
+  </head>
+  <body style="background-color: #fff">
+    <div class="debugger">
+<h1>OperationalError</h1>
+<div class="detail">
+  <p class="errormsg">sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2006, "MySQL server has gone away (BrokenPipeError(32, 'Broken pipe'))")
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.hashed_password AS users_hashed_password 
+FROM users 
+WHERE users.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'admin', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+</p>
+</div>
+<h2 class="traceback" style="cursor: pointer;">Traceback <em>(most recent call last)</em></h2>
+<div class="traceback">
+  <h3></h3>
+  <ul><li><div class="frame" id="frame-139891515868096">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">756</em>,
+      in <code class="function">_write_bytes</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>return data<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def _write_bytes(self, data):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>self._sock.settimeout(self._write_timeout)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>self._sock.sendall(data)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>except IOError as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>self._force_close()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>raise err.OperationalError(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>CR.CR_SERVER_GONE_ERROR, "MySQL server has gone away (%r)" % (e,)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="exc-divider">During handling of the above exception, another exception occurred:</div>
+</li><li><div class="frame" id="frame-139891515867200">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1900</em>,
+      in <code class="function">_execute_context</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>for fn in self.dialect.dispatch.do_execute:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                        </span>if fn(cursor, statement, parameters, context):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                            </span>evt_handled = True<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                            </span>break<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>if not evt_handled:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">                    </span>self.dialect.do_execute(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                        </span>cursor, statement, parameters, context<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                    </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>if self._has_events or self.engine._has_events:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>self.dispatch.after_cursor_execute(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515867312">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py"</cite>,
+      line <em class="line">736</em>,
+      in <code class="function">do_execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def do_executemany(self, cursor, statement, parameters, context=None):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>cursor.executemany(statement, parameters)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def do_execute(self, cursor, statement, parameters, context=None):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>cursor.execute(statement, parameters)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def do_execute_no_params(self, cursor, statement, context=None):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>cursor.execute(statement)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def is_disconnect(self, e, connection, cursor):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515867424">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/cursors.py"</cite>,
+      line <em class="line">148</em>,
+      in <code class="function">execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>while self.nextset():<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>pass<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>query = self.mogrify(query, args)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>result = self._query(query)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._executed = query<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return result<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def executemany(self, query, args):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span># type: (str, list) -&gt; int<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515867536">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/cursors.py"</cite>,
+      line <em class="line">310</em>,
+      in <code class="function">_query</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def _query(self, q):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>conn = self._get_db()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>self._last_executed = q<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>self._clear_result()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>conn.query(q)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._do_get_result()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return self.rowcount<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def _clear_result(self):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self.rownumber = 0<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515867648">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">547</em>,
+      in <code class="function">query</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">    </span>def query(self, sql, unbuffered=False):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># if DEBUG:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>#     print("DEBUG: sending query:", sql)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>if isinstance(sql, str):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>sql = sql.encode(self.encoding, "surrogateescape")<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>self._execute_command(COMMAND.COM_QUERY, sql)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._affected_rows = self._read_query_result(unbuffered=unbuffered)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return self._affected_rows<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def next_result(self, unbuffered=False):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._affected_rows = self._read_query_result(unbuffered=unbuffered)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515867760">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">814</em>,
+      in <code class="function">_execute_command</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># tiny optimization: build first packet manually instead of<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># calling self..write_packet()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>prelude = struct.pack("&lt;iB", packet_size, command)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>packet = prelude + sql[: packet_size - 1]<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>self._write_bytes(packet)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>if DEBUG:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>dump_packet(packet)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._next_seq_id = 1<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>if packet_size &lt; MAX_PACKET_LEN:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515867872">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">759</em>,
+      in <code class="function">_write_bytes</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>self._sock.settimeout(self._write_timeout)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>self._sock.sendall(data)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>except IOError as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>self._force_close()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>raise err.OperationalError(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>CR.CR_SERVER_GONE_ERROR, "MySQL server has gone away (%r)" % (e,)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def _read_query_result(self, unbuffered=False):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._result = None<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="exc-divider">The above exception was the direct cause of the following exception:</div>
+</li><li><div class="frame" id="frame-139891566649056">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/flask/app.py"</cite>,
+      line <em class="line">2528</em>,
+      in <code class="function">wsgi_app</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>ctx.push()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>response = self.full_dispatch_request()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>except Exception as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>error = e<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">                </span>response = self.handle_exception(e)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>except:  # noqa: B001<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>error = sys.exc_info()[1]<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>raise<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>return response(environ, start_response)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>finally:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526824480">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/flask/app.py"</cite>,
+      line <em class="line">2525</em>,
+      in <code class="function">wsgi_app</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>ctx = self.request_context(environ)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>error: t.Optional[BaseException] = None<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>ctx.push()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">                </span>response = self.full_dispatch_request()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>except Exception as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>error = e<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>response = self.handle_exception(e)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>except:  # noqa: B001<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>error = sys.exc_info()[1]<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526824592">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/flask/app.py"</cite>,
+      line <em class="line">1822</em>,
+      in <code class="function">full_dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>request_started.send(self)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>rv = self.preprocess_request()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>if rv is None:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>rv = self.dispatch_request()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>except Exception as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>rv = self.handle_user_exception(e)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return self.finalize_request(rv)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def finalize_request(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>rv: t.Union[ft.ResponseReturnValue, HTTPException],<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526824704">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/flask/app.py"</cite>,
+      line <em class="line">1820</em>,
+      in <code class="function">full_dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>request_started.send(self)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>rv = self.preprocess_request()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>if rv is None:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">                </span>rv = self.dispatch_request()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>except Exception as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>rv = self.handle_user_exception(e)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return self.finalize_request(rv)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def finalize_request(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526824816">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/flask/app.py"</cite>,
+      line <em class="line">1796</em>,
+      in <code class="function">dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>and req.method == "OPTIONS"<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>return self.make_default_options_response()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># otherwise dispatch to the handler for that endpoint<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>view_args: t.Dict[str, t.Any] = req.view_args  # type: ignore[assignment]<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def full_dispatch_request(self) -&gt; Response:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>"""Dispatches the request and on top of that performs request<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>pre and postprocessing as well as HTTP exception catching and<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>error handling.<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526824928">
+  <h4>File <cite class="filename">"/app/app/superpass/infrastructure/view_modifiers.py"</cite>,
+      line <em class="line">15</em>,
+      in <code class="function">view_method</code></h4>
+  <div class="source "><pre class="line before"><span class="ws">    </span>def response_inner(f):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>#print(f"Wrapping in response {f.__name__}", flush=True)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>@wraps(f)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>def view_method(*args, **kwargs):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>response_val = f(*args, **kwargs)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>if isinstance(response_val, werkzeug.wrappers.Response):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>return response_val<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>if isinstance(response_val, flask.Response):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526825376">
+  <h4>File <cite class="filename">"/app/app/superpass/views/account_views.py"</cite>,
+      line <em class="line">66</em>,
+      in <code class="function">login_post</code></h4>
+  <div class="source "><pre class="line before"><span class="ws">        </span>return {<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>'error': 'Please fill in username and password',<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>'username': username<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>}<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">    </span>user = user_service.login_user(username, password)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>if not user:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return {<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>'error': 'Login failed',<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>'username': username,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526827504">
+  <h4>File <cite class="filename">"/app/app/superpass/services/user_service.py"</cite>,
+      line <em class="line">25</em>,
+      in <code class="function">login_user</code></h4>
+  <div class="source "><pre class="line before"><span class="ws">    </span>return user<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span>def login_user(username: str, password: str) -&gt; Optional[User]:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>session = db_session.create_session()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">    </span>user = session.query(User).filter(User.username == username).first()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>if user and hasher.verify(password, user.hashed_password):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>session.close()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return user<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>session.close()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891526861088">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py"</cite>,
+      line <em class="line">2824</em>,
+      in <code class="function">first</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>"""<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># replicates limit(1) behavior<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>if self._statement is not None:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>return self._iter().first()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>else:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>return self.limit(1)._iter().first()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def one_or_none(self):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>"""Return at most one result or raise an exception.<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>Returns ``None`` if the query selects<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891516582464">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py"</cite>,
+      line <em class="line">2916</em>,
+      in <code class="function">_iter</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">    </span>def _iter(self):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># new style execution.<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>params = self._params<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>statement = self._statement_20()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>result = self.session.execute(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>statement,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>params,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>execution_options={"_sa_orm_load_options": self.load_options},<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891516582576">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py"</cite>,
+      line <em class="line">1714</em>,
+      in <code class="function">execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>execution_options = execution_options.union(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>dict(future_result=False)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>else:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>conn = self._connection_for_bind(bind)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>result = conn._execute_20(statement, params or {}, execution_options)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>if compile_state_cls:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>result = compile_state_cls.orm_setup_cursor_result(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>self,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>statement,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891516913840">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1705</em>,
+      in <code class="function">_execute_20</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>except AttributeError as err:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>util.raise_(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>exc.ObjectNotExecutableError(statement), replace_context=err<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>else:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>return meth(self, args_10style, kwargs_10style, execution_options)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def exec_driver_sql(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self, statement, parameters=None, execution_options=None<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>r"""Executes a SQL statement construct and returns a<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891517206288">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py"</cite>,
+      line <em class="line">334</em>,
+      in <code class="function">_execute_on_connection</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def _execute_on_connection(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>self, connection, multiparams, params, execution_options, _force=False<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>if _force or self.supports_execution:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>return connection._execute_clauseelement(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>self, multiparams, params, execution_options<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>else:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>raise exc.ObjectNotExecutableError(self)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515499888">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1572</em>,
+      in <code class="function">_execute_clauseelement</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>column_keys=keys,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>for_executemany=for_executemany,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>schema_translate_map=schema_translate_map,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>linting=self.dialect.compiler_linting | compiler.WARN_LINTING,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>ret = self._execute_context(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>dialect,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>dialect.execution_ctx_cls._init_compiled,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>compiled_sql,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>distilled_params,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>execution_options,<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515500000">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1943</em>,
+      in <code class="function">_execute_context</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span># CursorResult already exhausted rows / has no rows.<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                    </span># close us now<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                    </span>branched.close()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>except BaseException as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>self._handle_dbapi_exception(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>e, statement, parameters, cursor, context<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return result<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515500112">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">2124</em>,
+      in <code class="function">_handle_dbapi_exception</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>self._autorollback()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>if newraise:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>util.raise_(newraise, with_traceback=exc_info[2], from_=e)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>elif should_wrap:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">                </span>util.raise_(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                    </span>sqlalchemy_exception, with_traceback=exc_info[2], from_=e<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>else:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>util.raise_(exc_info[1], with_traceback=exc_info[2])<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515500224">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/util/compat.py"</cite>,
+      line <em class="line">211</em>,
+      in <code class="function">raise_</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span># intermediary exception does not change, but we can't figure<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span># that out.<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>exception.__cause__ = replace_context<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>raise exception<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>finally:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span># credit to<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span># https://cosmicpercolator.com/2016/01/13/exception-leaks-in-python-2-and-3/<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span># as the __traceback__ object creates a cycle<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>del exception, replace_context, from_, with_traceback<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515557136">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1900</em>,
+      in <code class="function">_execute_context</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>for fn in self.dialect.dispatch.do_execute:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                        </span>if fn(cursor, statement, parameters, context):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                            </span>evt_handled = True<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                            </span>break<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">                </span>if not evt_handled:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">                    </span>self.dialect.do_execute(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                        </span>cursor, statement, parameters, context<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                    </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>if self._has_events or self.engine._has_events:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>self.dispatch.after_cursor_execute(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515557248">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py"</cite>,
+      line <em class="line">736</em>,
+      in <code class="function">do_execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def do_executemany(self, cursor, statement, parameters, context=None):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>cursor.executemany(statement, parameters)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def do_execute(self, cursor, statement, parameters, context=None):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>cursor.execute(statement, parameters)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def do_execute_no_params(self, cursor, statement, context=None):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>cursor.execute(statement)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def is_disconnect(self, e, connection, cursor):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515706720">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/cursors.py"</cite>,
+      line <em class="line">148</em>,
+      in <code class="function">execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>while self.nextset():<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>pass<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>query = self.mogrify(query, args)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>result = self._query(query)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._executed = query<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return result<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def executemany(self, query, args):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span># type: (str, list) -&gt; int<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515711200">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/cursors.py"</cite>,
+      line <em class="line">310</em>,
+      in <code class="function">_query</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">    </span>def _query(self, q):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>conn = self._get_db()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>self._last_executed = q<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>self._clear_result()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>conn.query(q)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._do_get_result()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return self.rowcount<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def _clear_result(self):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self.rownumber = 0<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515711312">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">547</em>,
+      in <code class="function">query</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">    </span>def query(self, sql, unbuffered=False):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># if DEBUG:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>#     print("DEBUG: sending query:", sql)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>if isinstance(sql, str):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>sql = sql.encode(self.encoding, "surrogateescape")<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>self._execute_command(COMMAND.COM_QUERY, sql)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._affected_rows = self._read_query_result(unbuffered=unbuffered)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>return self._affected_rows<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def next_result(self, unbuffered=False):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._affected_rows = self._read_query_result(unbuffered=unbuffered)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515834064">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">814</em>,
+      in <code class="function">_execute_command</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># tiny optimization: build first packet manually instead of<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span># calling self..write_packet()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>prelude = struct.pack("&lt;iB", packet_size, command)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>packet = prelude + sql[: packet_size - 1]<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">        </span>self._write_bytes(packet)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>if DEBUG:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>dump_packet(packet)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._next_seq_id = 1<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>if packet_size &lt; MAX_PACKET_LEN:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class="frame" id="frame-139891515834176">
+  <h4>File <cite class="filename">"/app/venv/lib/python3.10/site-packages/pymysql/connections.py"</cite>,
+      line <em class="line">759</em>,
+      in <code class="function">_write_bytes</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>self._sock.settimeout(self._write_timeout)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>try:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>self._sock.sendall(data)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">        </span>except IOError as e:<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line before"><span class="ws">            </span>self._force_close()<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line current"><span class="ws">            </span>raise err.OperationalError(<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">                </span>CR.CR_SERVER_GONE_ERROR, "MySQL server has gone away (%r)" % (e,)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">            </span>)<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws"></span> <img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">    </span>def _read_query_result(self, unbuffered=False):<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre>
+<pre class="line after"><span class="ws">        </span>self._result = None<img src="OperationalError_fichiers/console.png" title="Open an interactive python shell in this frame"></pre></div>
+</div>
+</li></ul>
+  <blockquote>sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2006, "MySQL server has gone away (BrokenPipeError(32, 'Broken pipe'))")
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.hashed_password AS users_hashed_password 
+FROM users 
+WHERE users.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'admin', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+</blockquote>
+</div>
+
+<div class="plain hidden">
+    <p>
+      This is the Copy/Paste friendly version of the traceback.
+    </p>
+    <pre>Traceback (most recent call last):
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 756, in _write_bytes
+    self._sock.sendall(data)
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 148, in execute
+    result = self._query(query)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 310, in _query
+    conn.query(q)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 547, in query
+    self._execute_command(COMMAND.COM_QUERY, sql)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 814, in _execute_command
+    self._write_bytes(packet)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 759, in _write_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2006, "MySQL server has gone away (BrokenPipeError(32, 'Broken pipe'))")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/app/superpass/infrastructure/view_modifiers.py", line 15, in view_method
+    response_val = f(*args, **kwargs)
+  File "/app/app/superpass/views/account_views.py", line 66, in login_post
+    user = user_service.login_user(username, password)
+  File "/app/app/superpass/services/user_service.py", line 25, in login_user
+    user = session.query(User).filter(User.username == username).first()
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2824, in first
+    return self.limit(1)._iter().first()
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2916, in _iter
+    result = self.session.execute(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1714, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
+    self._handle_dbapi_exception(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
+    util.raise_(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 148, in execute
+    result = self._query(query)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 310, in _query
+    conn.query(q)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 547, in query
+    self._execute_command(COMMAND.COM_QUERY, sql)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 814, in _execute_command
+    self._write_bytes(packet)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 759, in _write_bytes
+    raise err.OperationalError(
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2006, "MySQL server has gone away (BrokenPipeError(32, 'Broken pipe'))")
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.hashed_password AS users_hashed_password 
+FROM users 
+WHERE users.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'admin', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+</pre>
+</div>
+<div class="explanation">
+  The debugger caught an exception in your WSGI application.  You can now
+  look at the traceback which led to the error.  <span class=""><p>To 
+switch between the interactive traceback and the plaintext one, you can 
+click on the "Traceback" headline. From the text traceback you can also 
+create a paste of it. For code execution mouse-over the frame you want 
+to debug and click on the console icon on the right side.</p><p>You can execute arbitrary Python code in the stack frames and there are some extra helpers available for introspection:</p><ul><li><code>dump()</code> shows all variables in the frame</li><li><code>dump(obj)</code> dumps all that's known about the object</li></ul></span>
+</div>
+      <div class="footer">
+        Brought to you by <strong class="arthur">DON'T PANIC</strong>, your
+        friendly Werkzeug powered traceback interpreter.
+      </div>
+    </div>
+
+    <div class="pin-prompt">
+      <div class="inner">
+        <h3>Console Locked</h3>
+        <p>
+          The console is locked and needs to be unlocked by entering the PIN.
+          You can find the PIN printed out on the standard output of your
+          shell that runs the server.
+        </p><form>
+          <p>PIN:
+            <input type="text" name="pin" size="14">
+            <input type="submit" name="btn" value="Confirm Pin">
+        </p></form>
+      </div>
+    </div>
+  
+
+
+
+</body></html>
+<!--
+
+Traceback (most recent call last):
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 756, in _write_bytes
+    self._sock.sendall(data)
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 148, in execute
+    result = self._query(query)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 310, in _query
+    conn.query(q)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 547, in query
+    self._execute_command(COMMAND.COM_QUERY, sql)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 814, in _execute_command
+    self._write_bytes(packet)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 759, in _write_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2006, "MySQL server has gone away (BrokenPipeError(32, 'Broken pipe'))")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/app/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/app/superpass/infrastructure/view_modifiers.py", line 15, in view_method
+    response_val = f(*args, **kwargs)
+  File "/app/app/superpass/views/account_views.py", line 66, in login_post
+    user = user_service.login_user(username, password)
+  File "/app/app/superpass/services/user_service.py", line 25, in login_user
+    user = session.query(User).filter(User.username == username).first()
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2824, in first
+    return self.limit(1)._iter().first()
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2916, in _iter
+    result = self.session.execute(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1714, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
+    self._handle_dbapi_exception(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
+    util.raise_(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/app/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 148, in execute
+    result = self._query(query)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/cursors.py", line 310, in _query
+    conn.query(q)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 547, in query
+    self._execute_command(COMMAND.COM_QUERY, sql)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 814, in _execute_command
+    self._write_bytes(packet)
+  File "/app/venv/lib/python3.10/site-packages/pymysql/connections.py", line 759, in _write_bytes
+    raise err.OperationalError(
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2006, "MySQL server has gone away (BrokenPipeError(32, 'Broken pipe'))")
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.hashed_password AS users_hashed_password 
+FROM users 
+WHERE users.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'admin', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+
+
+-->

@@ -1,0 +1,17 @@
+flask
+requests
+itsdangerous
+markupsafe
+werkzeug
+
+[dev]
+twine
+wheel
+setuptools>=40.6.3
+
+[test]
+coverage
+codecov
+
+[wordlist]
+flask-unsign-wordlist

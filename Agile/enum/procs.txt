@@ -1,0 +1,342 @@
+Trying /proc/1013/environ
+environ of 1014:
+
+
+Trying /proc/1014/environ
+environ of 1015:
+
+
+Trying /proc/1068/environ
+environ of 1069:
+LANG=C.UTF-8PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/binHOME=/var/wwwLOGNAME=www-dataUSER=www-dataINVOCATION_ID=71450070358c4062840f183bb69edd83JOURNAL_STREAM=8:32580SYSTEMD_EXEC_PID=1069CONFIG_PATH=/app/config_prod.json
+
+Trying /proc/1070/environ
+environ of 1071:
+LANG=C.UTF-8PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/binHOME=/var/wwwLOGNAME=www-dataUSER=www-dataINVOCATION_ID=71450070358c4062840f183bb69edd83JOURNAL_STREAM=8:32580SYSTEMD_EXEC_PID=1069CONFIG_PATH=/app/config_prod.json
+
+Trying /proc/0/cmdlineron
+cmdline of 1:
+/sbin/init
+
+Trying /proc/485/cmdline
+cmdline of 486:
+/lib/systemd/systemd-journald
+
+Trying /proc/528/cmdline
+cmdline of 529:
+/sbin/multipathd-d-s
+
+Trying /proc/530/cmdline
+cmdline of 531:
+/lib/systemd/systemd-udevd
+
+Trying /proc/531/cmdline
+cmdline of 532:
+/sbin/multipathd-d-s
+
+Trying /proc/532/cmdline
+cmdline of 533:
+/sbin/multipathd-d-s
+
+Trying /proc/533/cmdline
+cmdline of 534:
+/sbin/multipathd-d-s
+
+Trying /proc/534/cmdline
+cmdline of 535:
+/sbin/multipathd-d-s
+
+Trying /proc/535/cmdline
+cmdline of 536:
+/sbin/multipathd-d-s
+
+Trying /proc/536/cmdline
+cmdline of 537:
+/sbin/multipathd-d-s
+
+Trying /proc/557/cmdline
+cmdline of 558:
+/lib/systemd/systemd-timesyncd
+
+Trying /proc/558/cmdline
+cmdline of 559:
+/sbin/auditd
+
+Trying /proc/559/cmdline
+cmdline of 560:
+/sbin/auditd
+
+Trying /proc/560/cmdline
+cmdline of 561:
+/usr/local/sbin/laurel--config/etc/laurel/config.toml
+
+Trying /proc/561/cmdline
+cmdline of 562:
+/sbin/auditd
+
+Trying /proc/565/cmdline
+cmdline of 566:
+/usr/bin/VGAuthService
+
+Trying /proc/566/cmdline
+cmdline of 567:
+/usr/bin/vmtoolsd
+
+Trying /proc/590/cmdline
+cmdline of 591:
+/lib/systemd/systemd-networkd
+
+Trying /proc/614/cmdline
+cmdline of 615:
+/lib/systemd/systemd-timesyncd
+
+Trying /proc/616/cmdline
+cmdline of 617:
+/lib/systemd/systemd-resolved
+
+Trying /proc/627/cmdline
+cmdline of 628:
+/usr/bin/vmtoolsd
+
+Trying /proc/628/cmdline
+cmdline of 629:
+/usr/bin/vmtoolsd
+
+Trying /proc/630/cmdline
+cmdline of 631:
+/usr/bin/vmtoolsd
+
+Trying /proc/730/cmdline
+cmdline of 731:
+/sbin/dhclient-1-4-v-i-pf/run/dhclient.eth0.pid-lf/var/lib/dhcp/dhclient.eth0.leases-I-df/var/lib/dhcp/dhclient6.eth0.leaseseth0
+
+Trying /proc/731/cmdline
+cmdline of 732:
+/sbin/dhclient-1-4-v-i-pf/run/dhclient.eth0.pid-lf/var/lib/dhcp/dhclient.eth0.leases-I-df/var/lib/dhcp/dhclient6.eth0.leaseseth0
+
+Trying /proc/732/cmdline
+cmdline of 733:
+/sbin/dhclient-1-4-v-i-pf/run/dhclient.eth0.pid-lf/var/lib/dhcp/dhclient.eth0.leases-I-df/var/lib/dhcp/dhclient6.eth0.leaseseth0
+
+Trying /proc/733/cmdline
+cmdline of 734:
+/sbin/dhclient-1-4-v-i-pf/run/dhclient.eth0.pid-lf/var/lib/dhcp/dhclient.eth0.leases-I-df/var/lib/dhcp/dhclient6.eth0.leaseseth0
+
+Trying /proc/776/cmdline
+cmdline of 777:
+@dbus-daemon--system--address=systemd:--nofork--nopidfile--systemd-activation--syslog-only
+
+Trying /proc/783/cmdline
+cmdline of 784:
+/usr/bin/python3/usr/bin/networkd-dispatcher--run-startup-triggers
+
+Trying /proc/788/cmdline
+cmdline of 789:
+/lib/systemd/systemd-logind
+
+Trying /proc/986/cmdline
+cmdline of 987:
+/usr/sbin/cron-f-P
+
+Trying /proc/1005/cmdline
+cmdline of 1006:
+sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+
+Trying /proc/1011/cmdline
+cmdline of 1012:
+/sbin/agetty-o-p -- \u--nocleartty1linux
+
+Trying /proc/1012/cmdline
+cmdline of 1013:
+nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+
+Trying /proc/1013/cmdline
+cmdline of 1014:
+nginx: worker process
+
+Trying /proc/1014/cmdline
+cmdline of 1015:
+nginx: worker process
+
+Trying /proc/1015/cmdline
+cmdline of 1016:
+/usr/sbin/mysqld
+
+Trying /proc/1020/cmdline
+cmdline of 1021:
+/usr/sbin/mysqld
+
+Trying /proc/1021/cmdline
+cmdline of 1022:
+/usr/sbin/mysqld
+
+Trying /proc/1022/cmdline
+cmdline of 1023:
+/usr/sbin/mysqld
+
+Trying /proc/1023/cmdline
+cmdline of 1024:
+/usr/sbin/mysqld
+
+Trying /proc/1024/cmdline
+cmdline of 1025:
+/usr/sbin/mysqld
+
+Trying /proc/1025/cmdline
+cmdline of 1026:
+/usr/sbin/mysqld
+
+Trying /proc/1026/cmdline
+cmdline of 1027:
+/usr/sbin/mysqld
+
+Trying /proc/1027/cmdline
+cmdline of 1028:
+/usr/sbin/mysqld
+
+Trying /proc/1028/cmdline
+cmdline of 1029:
+/usr/sbin/mysqld
+
+Trying /proc/1029/cmdline
+cmdline of 1030:
+/usr/sbin/mysqld
+
+Trying /proc/1030/cmdline
+cmdline of 1031:
+/usr/sbin/mysqld
+
+Trying /proc/1033/cmdline
+cmdline of 1034:
+/usr/sbin/mysqld
+
+Trying /proc/1034/cmdline
+cmdline of 1035:
+/usr/sbin/mysqld
+
+Trying /proc/1035/cmdline
+cmdline of 1036:
+/usr/sbin/mysqld
+
+Trying /proc/1036/cmdline
+cmdline of 1037:
+/usr/sbin/mysqld
+
+Trying /proc/1037/cmdline
+cmdline of 1038:
+/usr/sbin/mysqld
+
+Trying /proc/1038/cmdline
+cmdline of 1039:
+/usr/sbin/mysqld
+
+Trying /proc/1041/cmdline
+cmdline of 1042:
+/usr/sbin/mysqld
+
+Trying /proc/1042/cmdline
+cmdline of 1043:
+/usr/sbin/mysqld
+
+Trying /proc/1043/cmdline
+cmdline of 1044:
+/usr/sbin/mysqld
+
+Trying /proc/1044/cmdline
+cmdline of 1045:
+/usr/sbin/mysqld
+
+Trying /proc/1045/cmdline
+cmdline of 1046:
+/usr/sbin/mysqld
+
+Trying /proc/1046/cmdline
+cmdline of 1047:
+/usr/sbin/mysqld
+
+Trying /proc/1047/cmdline
+cmdline of 1048:
+/usr/sbin/mysqld
+
+Trying /proc/1048/cmdline
+cmdline of 1049:
+/usr/sbin/mysqld
+
+Trying /proc/1049/cmdline
+cmdline of 1050:
+/usr/sbin/mysqld
+
+Trying /proc/1050/cmdline
+cmdline of 1051:
+/usr/sbin/mysqld
+
+Trying /proc/1054/cmdline
+cmdline of 1055:
+/usr/sbin/mysqld
+
+Trying /proc/1055/cmdline
+cmdline of 1056:
+/usr/sbin/mysqld
+
+Trying /proc/1056/cmdline
+cmdline of 1057:
+/usr/sbin/mysqld
+
+Trying /proc/1057/cmdline
+cmdline of 1058:
+/usr/sbin/mysqld
+
+Trying /proc/1058/cmdline
+cmdline of 1059:
+/usr/sbin/mysqld
+
+Trying /proc/1059/cmdline
+cmdline of 1060:
+/usr/sbin/mysqld
+
+Trying /proc/1060/cmdline
+cmdline of 1061:
+/usr/sbin/mysqld
+
+Trying /proc/1061/cmdline
+cmdline of 1062:
+/usr/sbin/mysqld
+
+Trying /proc/1062/cmdline
+cmdline of 1063:
+/usr/sbin/mysqld
+
+Trying /proc/1064/cmdline
+cmdline of 1065:
+/usr/sbin/mysqld
+
+Trying /proc/1066/cmdline
+cmdline of 1067:
+/app/venv/bin/python3/app/venv/bin/gunicorn--bind127.0.0.1:5555wsgi-dev:app
+
+Trying /proc/1067/cmdline
+cmdline of 1068:
+/app/venv/bin/python3/app/venv/bin/gunicorn--bind127.0.0.1:5555wsgi-dev:app
+
+Trying /proc/1068/cmdline
+cmdline of 1069:
+/app/venv/bin/python3/app/venv/bin/gunicorn--bind127.0.0.1:5000--threads=10--timeout600wsgi:app
+
+Trying /proc/1070/cmdline
+cmdline of 1071:
+/app/venv/bin/python3/app/venv/bin/gunicorn--bind127.0.0.1:5000--threads=10--timeout600wsgi:app
+
+Trying /proc/1072/cmdline
+cmdline of 1073:
+/usr/sbin/mysqld
+
+Trying /proc/1073/cmdline
+cmdline of 1074:
+/usr/sbin/mysqld
+
+Trying /proc/1216/cmdline
+cmdline of 1217:
+/usr/sbin/mysqld
+
+Trying /proc/9999/cmdline
+
