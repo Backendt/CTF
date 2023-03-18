@@ -1,0 +1,104 @@
+Inject:
+  - Ports:
+    - TCP:
+      - 22 (SSH)
+      - 8080 (HTTP)
+
+  - Website (Zodd cloud):
+    - 404 Page:
+      - Apache tomcat's default
+    - Register (/register):
+      - GET:
+        - "Under construction"
+      - POST:
+        - "Method not allowed"
+
+    - Upload (/upload):
+      - "Only images accepted"
+      - Uploaded files are not renamed
+      - Detect image file based on:
+        - Magic bytes:
+          - No
+        - Mime type:
+          - No
+        - File extension:
+          - Yes
+          - Bypass with null byte:
+            - No
+    - Show image (/show_image?img={FILE}):
+      - Webroot leak on Not found error:
+        - "/var/www/WebApp/src/main/uploads/FILE"
+      - Path traversal:
+        - Yes (img=../../../../../../../etc/passwd)
+          - Write exploit:
+            - "exploit/readFile.py"
+
+  - Local files:
+    - /etc/passwd:
+      - Users:
+        - "frank:1000:/home/frank"
+        - "phil:1001:/home/phil"
+    - Users ssh keys:
+      - None
+    - /proc/self:
+      - /environ:
+        - Nothing
+      - /cmdline:
+        - Nothing
+      - /etc:
+        - /hosts:
+          - "inject" hostname
+    - Procs enumeration:
+      - Nothing
+    - /var/www/WebApp/.classpath:
+      - Found
+    - /var/www/WebApp/src/main/resources/META-INF/MANIFEST.MF:
+      - "Main-Class: com.example.WebApp.WebAppApplication"
+    - /var/www/WebApp/src/main/java/com/example/WebApp/WebAppApplication.java:
+      - SpringBoot framework
+    - /var/www/WebApp/src/main/resources/application.properties:
+      - Nothing useful
+    - /var/www/WebApp/pom.xml:
+      - "Java 11"
+      - "Spring 2.6.5":
+        - CVE-2022-22965 (Spring4Shell):
+          - Write exploit:
+            - exploit/spring4shell.py:
+              - USER SHELL
+      - "FinalName: spring-webapp"
+    - /var/www/WebApp/target/spring-webapp.jar:
+      - Web app fat jar
+  - Decompiled jar:
+    - UserController.java:
+      - "/register"
+      - "/upload"
+      - "/show_image"
+      - "/release_notes"
+      - "/blogs"
+  
+  - As frank user:
+    - id:
+      - Only user group
+    - /opt:
+      - /automation/tasks/playbook_1.yml:
+        - "Name : Checking webapp service"
+        - "ansible.builtin.systemd"
+    - Listening procs:
+      - "22 (SSH)"
+      - "8080 (Website)"
+    - /home/.m2/settings.xml:
+      - "phil:DocPhillovestoInject123":
+        - VALID USER CREDS
+  - As phil:
+    - id:
+      - "staff" group
+    - "sudo -l":
+      - "Not in sudoers file"
+    - /opt/automation/tasks:
+      - "Writable for staff"
+    - pspy:
+      - "CMD: UID=0     PID=106914 | /usr/bin/python3 /usr/bin/ansible-playbook /opt/automation/tasks/playbook_1.yml":
+    - /opt/automation/tasks/playbook_2.yml:
+      - "[{hosts: localhost, tasks: [shell: /bin/bash /tmp/.shell.sh]}]":
+        - ROOT SHELL
+
