@@ -1,0 +1,95 @@
+Socket:
+  Ports:
+    TCP:
+      - 22 (SSH)
+      - 80 (HTTP)
+      - 5789 (HTTP - Websocket)
+
+  Websites:
+    qreader.htb (Port 80):
+      Werkzeug/2.1.2 Python/3.10.6
+      Flask 2.1.2
+      Subdomains:
+        - None
+      Endpoints:
+        /reader:
+          File upload, reflect user input
+          Vulns:
+            SSTI: No
+            XSS: No
+            Command Injection:
+              In QR Code: No
+              In file name: No
+            Unrestricted file upload:
+              Accepted extensions: jpg,jpeg,png
+              Directory traversal: No
+        /report:
+          XSS (In case of a simulated user): No
+        /embed (POST only):
+          Convert text to QR code
+          Vulns:
+            Command Injection:
+              In content: No
+              In content name: No
+        /server-status:
+          Apache/2.4.52
+          Forbidden
+        /download:
+          /linux:
+            QReader binary
+          Vulns:
+            Directory traversal: No
+
+  Binary:
+    strings:
+      Seems to use websockets
+    Wireshark:
+      Doesn't send any packets but About>Update and About>Version shows "Connection error"
+      DNS Query to ws.qreader.htb
+      Websocket to ws.qreader.htb:5789/version:
+        Send: '{"version": "0.0.2"}'
+        Receive: '{"message": {"id": 2, "version": "0.0.2", "released_date": "26/09/2022", "downloads": 720}}'
+      Websocket to ws.qreader.htb:5789/update:
+        Send: '{"version": "0.0.2"}'
+        Receive: '{"message": "You have the latest version installed!"}'
+
+  Websocket (ws.qreader.htb:5789):
+    Endpoints:
+      /version:
+        Vulns:
+          Command Injection: No
+          SQL Injection:
+            Unexpected error on double quotes:
+              Write exploit:
+                exploit/WebsocketSQLI.py
+
+  Database:
+    passwords:
+      - 0c090c365fa0559b151a43e0fea39710: "denjanjade122566"
+    users:
+      - admin
+    Names:
+      - Thomas Keller:
+        Possibles usernames:
+          - thomas
+          - keller
+          - tkeller: VALID USER
+          - thomask
+      - Json
+      - Mike
+
+  PrivEsc as tkeller:
+    id: "shared" group
+    sudo -l:
+      "NOPASSWD: /usr/local/sbin/build-installer.sh"
+    /opt:
+      Empty "shared" folder owned by "shared" group
+    /etc/passwd:
+      - "svc:1000:/home/svc"
+      - "tkeller:1001:/home/tkeller"
+    build-installer.sh:
+      "build" action run "pyinstaller" on a given .spec file
+      /tmp/hello.spec:
+        "import pty; pty.spawn('/bin/bash')":
+          ROOT SHELL
+

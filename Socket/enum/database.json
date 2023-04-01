@@ -1,0 +1,92 @@
+
+Results :
+Content: {
+  "answers": {
+    "answer": [
+      "Hello Json,\n\nAs if now we support PNG formart only. We will be adding JPEG/SVG file formats in our next version.\n\nThomas Keller",
+      "Hello Mike,\n\n We have confirmed a valid problem with handling non-ascii charaters. So we suggest you to stick with ascci printable characters for now!\n\nThomas Keller"
+    ],
+    "answered_by": [
+      "admin"
+    ],
+    "answered_date": [
+      "17/08/2022",
+      "25/09/2022"
+    ],
+    "id": [
+      "1",
+      "2"
+    ],
+    "status": [
+      "PENDING"
+    ]
+  },
+  "info": {
+    "id": [
+      "1",
+      "2"
+    ],
+    "key": [
+      "convertions",
+      "downloads"
+    ],
+    "value": [
+      "1000",
+      "2289"
+    ]
+  },
+  "reports": {
+    "description": [
+      "Is there a way to convert JPEG images with this tool? Or should I convert my JPEG to PNG and then use it?",
+      "When I try to embed non-ascii text, it always gives me an error. It would be nice if you could take a look at this."
+    ],
+    "id": [
+      "1",
+      "2"
+    ],
+    "reported_date": [
+      "13/08/2022",
+      "22/09/2022"
+    ],
+    "reporter_name": [
+      "Jason",
+      "Mike"
+    ],
+    "subject": [
+      "Accept JPEG files",
+      "Converting non-ascii text"
+    ]
+  },
+  "users": {
+    "id": [
+      "1"
+    ],
+    "password": [
+      "0c090c365fa0559b151a43e0fea39710"
+    ],
+    "role": [
+      "admin"
+    ],
+    "username": [
+      "admin"
+    ]
+  },
+  "versions": {
+    "downloads": [
+      "280",
+      "720"
+    ],
+    "id": [
+      "1",
+      "2"
+    ],
+    "released_date": [
+      "12/07/2022",
+      "26/09/2022"
+    ],
+    "version": [
+      "0.0.1",
+      "0.0.2"
+    ]
+  }
+}
