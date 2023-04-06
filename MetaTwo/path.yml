@@ -1,0 +1,97 @@
+MetaTwo:
+  Ports:
+    - 21 (FTP)
+    - 22 (SSH)
+    - 80 (HTTP)
+
+  FTP:
+    "ProFTPD Server (Debian)"
+    Anonymous login:
+      Disabled
+
+  Website (http://metapress.htb):
+    "nginx 1.18.0" 
+  "WordPress 5.6.2":
+    CVE-2021-29447:
+      Needs to be authenticated
+      
+    Events (/event):
+      "BookingPress 1.0.10":
+        CVE-2022-0739:
+          Write exploit:
+            exploit/bookingpressSQLI.py
+
+  Database:
+    Wordpress Users:
+      admin:
+        Email: "admin@metapress.htb"
+        Password: "$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV."
+      manager:
+        Email: "manager@metapress.htb"
+        Password:
+          "$P$B4aNM28N0E.tMy/JIcnVMZbGcU16Q70":
+            "partylikearockstar":
+              Not valid ssh or ftp creds
+
+  Website (http://metapress.htb) (AUTHENTICATED):
+    CVE-2021-29447:
+      Write exploit:
+        exploit/wordpressMediaXXE.py
+
+  Local files:
+    /etc/passwd:
+      "jnelson:1000:/home/jnelson/"
+    /proc/self:
+      /environ: Nothing
+      /cmdline: Nothing
+    /home/jnelson/.ssh/id_rsa: Nothing
+    /etc/hosts:
+      "meta2 metapress.htb"
+    /etc/nginx/sites-enabled/default:
+      "root /var/www/metapress.htb/blog"
+    Procs enumeration: Nothing
+    /var/www/metapress.htb/blog/wp-config.php:
+      - "define( 'DB_PASSWORD', '635Aq@TdqrCwXFUZ' );"
+      - "define( 'FS_METHOD', 'ftpext' );"
+      - "define( 'FTP_USER', 'metapress.htb' );"
+      - "define( 'FTP_PASS', '9NYS_ii@FyL_p5M2NvJ' );"
+      - "define( 'FTP_HOST', 'ftp.metapress.htb' );"
+      - "define( 'FTP_BASE', 'blog/' );"
+
+  FTP (Authenticated):
+    blog/:
+      Wordpress installation
+      No writable directory
+    mailer/:
+      PHPMailer directory
+      send_email.php:
+        - $mail->Username = "jnelson@metapress.htb";                 
+        - $mail->Password = "Cb4_JmWM8zUZWMu@Ys";:
+          VALID SSH CREDS
+        - $mail->From = "jnelson@metapress.htb";
+        - $mail->FromName = "James Nelson";
+
+  PrivEsc (as jnelson):
+    id: Only user group
+    sudo -l: User may not run sudo
+    ss -tunlp: 3306,80,22,21
+    /opt: Empty
+    /home/.passpie:
+      Passpie is a command-line password manager
+      Passpie 1.6.1 (latest)
+      .keys:
+        PGP Keys:
+          Bruteforce private key passphrase:
+            "blink182"
+      /ssh:
+        jnelson.pass
+        root.pass
+
+  Passpie:
+    Passhrase : "blink182"
+    Credentials:
+      root: "p7qfAZt4_A1xo_0x":
+        su -:
+          ROOT SHELL
+      jnelson: "Cb4_JmWM8zUZWMu@Ys"
+
