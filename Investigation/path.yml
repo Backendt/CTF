@@ -1,0 +1,75 @@
+Investigation:
+  Ports open:
+    - 22 (SSH)
+    - 80 (HTTP)
+
+  Website (http://eforenzics.htb):
+    Redirects to: "eforenzics.htb":
+      Subdomains bruteforce: No results
+    Apache: 2.4.41
+    Endpoints:
+      /upload.php:
+        "Only accepts jpg"
+        Uses exiftool on the given image:
+          Version:
+            12.37:
+              CVE-2022-23935:
+                Write exploit: CVE-2022-23935.py
+
+  Shell as www-data:
+    id: Only user group
+    /etc/passwd:
+      "smorton:1000:/home/smorton"
+    /home/smorton:
+      "Permission denied"
+    Listening ports:
+      - 22 (SSH)
+      - 80 (HTTP)
+    /opt:
+      Exiftool installation
+    /etc/apache2/sites-enabled/domain.conf:
+      No other vhost
+    /var/www/html/:
+      No other endpoint
+    /proc/*/environ:
+      Nothing
+    Procs:
+      Nothing
+    Cron:
+      "*/5 * * * * date >> /usr/local/investigation/analysed_log && echo 'Clearing folders' >> /usr/local/investigation/analysed_log && rm -r /var/www/uploads/* && rm /var/www/html/analysed_images/*"
+    /usr/local/investigation/:
+      Windows Event Logs for Analysis.msg:
+        "From: 'Thomas Jones' <thomas.jones@eforenzics.htb>"
+        "To: 'Steve Morton' <steve.morton@eforenzics.htb>"
+        "Attachments: evtx-logs.zip (1,246.67 KB)"
+    evtx-logs.zip:
+      security.evtx:
+        security-evtx-dump.xml (Converted to xml with python-evtx):
+          Grep:
+            - Event ID 4624 (Successful login): Tons of usernames, nothing useful
+            - Event ID 4625 (Login failed):
+              "<Data Name='TargetUserName'>Def@ultf0r3nz!csPa$$</Data>":
+                VALID SSH PASSWORD FOR smorton
+
+  Shell as smorton:
+    id: Only user group
+    sudo -l:
+      "(root) NOPASSWD: /usr/bin/binary"
+
+  /usr/bin/binary:
+    strings:
+      - "perl ./%s"
+      - "rm -f ./lDnxUysaQn"
+      - "curl_easy"
+    Binary Ninja:
+      "argc != 3": Needs 3 arguments
+      "getuid() != 0": Only runnable as root
+      "strcmp(argv[3], 'lDnxUysaQn') != 0": Second argument needs to be "lDnxUysaQn"
+      "fopen(argv[2], &data_2027)": Opens file "lDnxUysaQn" in Write Bytes mode
+      "curl_easy_init()": Starts a libcurl easy session
+      "curl_easy_set_opt(...argv[1]...)": Curl to the url given as first argument
+    Curl to perl hello world program:
+      Output : "Hello World"
+    Curl to file containing "exec '/bin/bash'":
+      SHELL AS ROOT
+      
