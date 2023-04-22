@@ -1,0 +1,146 @@
+Mailroom:
+  Open ports:
+    - 22 (SSH)
+    - 80 (HTTP)
+  Website (http://mailroom.htb):
+    Technologies:
+      - Apache/2.4.54 (Debian)
+      - PHP/7.4.33
+    In footer: "mailroom.htb"
+    Subdomain enumeration for mailroom.htb:
+      Found "git.mailroom.htb"
+    Endpoints:
+      /about.php:
+        Names:
+          - "Tristan Pitt"
+          - "Matthew Conley"
+          - "Chris McLovin"
+          - "Vivien Perkins"
+      /contact.php:
+        Contact form with reflected input
+        XSS (In case of simulated user):
+          Received callback from "<img src='http://10.10.14.76:1234/xss'>"
+          Writing tool to make exploitation easier:
+            injectJavascript.py
+
+  Website (http://git.mailroom.htb):
+    Technologies:
+      - Gitea 1.18.0
+    Users:
+      - "administrator"
+      - "matthew"
+      - "tristan"
+    Repos:
+      staffroom:
+        Contains link "http://staff-review-panel.mailroom.htb"
+      
+  Website (http://staff-review-panel.mailroom.htb):
+    Forbidden
+    Access through XSS:
+      Success
+      Manipulated browser is not already logged-in
+    /inspect.php:
+      Potential command injection on inquiry_id:
+        Needs to be logged-in
+    /auth.php:
+      Safety assertions does not stop the execution even if they fail:
+        NoSQL Injection:
+          "email[$ne]=foo&password[$ne]=bar":
+            {"success":false,"message":"Invalid input detected"}{"success":true,"message":"Check your inbox for an email with your 2FA token"}:
+              No way of getting 2FA token
+          Boolean-based NoSQLI to get email and password hash:
+            Email guesses (using usernames and domain name found):
+              - "administrator@mailroom.htb": No
+              - "matthew@mailroom.htb": No
+              - "tristan@mailroom.htb": YES
+            Write javascript xss payload to guess password:
+              findTristanPassword.js:
+                password: "69trisRulez!":
+                  VALID SSH CREDS FOR tristan
+
+  Shell as tristan:
+    id: Only user groups
+    /etc/passwd:
+      - "tristan:1000:/home/tristan"
+      - "matthew:1001:/home/matthew"
+    sudo -l: May not run sudo on mailroom
+    /home/matthew/personal.kdbx:
+      Keepass password database
+      Password bruteforce attempt:
+        Not bruteforcable, hash cost is 6000
+    Listening ports:
+      - 80 (HTTP)
+      - 22 (SSH)
+      - 33695 (HTTP)
+      - 25 (?)
+    ip a:
+      docker0 interface
+    /var/:
+      www/: Directory not found
+      mail/tristan:
+        Can get staff-review-panel 2FA token
+        Mail sent from 172.19.0.5
+
+  Website (Authenticated http://staff-review-panel.mailroom.htb):
+    /inspect.php:
+      Backticks are not filtered from inquiry_id:
+        Write exploit: 
+          staffPanelCommandInjection.py
+
+  Shell as www-data:
+    id: Only user group
+    /etc/passwd:
+      No other users
+    env:
+      Nothing
+    .git/:
+      No changes made
+      config/:
+        "url = http://matthew:HueLover83%23@gitea:3000/matthew/staffroom.git":
+          Password: "HueLover83#":
+            VALID USER CREDS FOR matthew
+
+  Shell as matthew:
+    id: Only user group
+    sudo -l: May not run sudo
+    ~/log.txt: Empty
+    kpcli:
+      eMail/: Empty
+      Internet: Empty
+    Cron jobs: None
+    Procs:
+      "matthew 107136 /usr/bin/perl /usr/bin/kpcli":
+        /proc/107136/environ: Nothing
+        /proc/107136/cmdline: Nothing
+        Replacing ~/personal.kdbx with perl script writing user input to file: Doesn't seems to work
+        /proc/107136/io:
+          rchar: 1416985
+          wchar: 223
+          syscr: 383
+          syscw: 22
+          read_bytes: 0
+          write_bytes: 0
+          cancelled_write_bytes: 0
+        strace:
+          - read(3, "l", 1)
+          - read(3, "s", 1)
+          - ...: "ls Root/"
+          
+          - write(1, "=== Entries ===\n", 16)
+          - write(1, "0. food account                 "..., 375)
+
+          - write(1, "Please provide the master password: ", 36):
+            read(0, '!', 8192): write(1, "*", 1):
+              Password: "!sEcUr3p4$$w0rd9":
+                VALID MASTER PASSWORD
+    ~/personal.kdbx:
+      Root/:
+        - 0. food account
+        - 1. GItea Admin account
+        - 2. gitea database password
+        - 3. My Gitea Account
+        - 4. root acc:
+          Password:
+            "a$gBa3!GA8":
+              VALID ROOT PASSWORD
+
