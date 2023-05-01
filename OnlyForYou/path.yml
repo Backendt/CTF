@@ -1,0 +1,140 @@
+OnlyForYou:
+  Listening ports:
+    - 22 (SSH)
+    - 80 (HTTP)
+  
+  Website (http://only4you.htb):
+    Redirects to: "only4you.htb"
+    Technologies:
+      - "nginx/1.18.0 (Ubuntu)"
+    Names:
+      - "Walter White"
+      - "Sarah Jhonson"
+      - "William Anderson"
+      - "Amanda Jepson"
+    Subdomains:
+      - "beta.only4you.htb"
+
+  Website (http://beta.only4you.htb):
+    Technologies:
+      - Flask
+    Endpoints:
+      /source:
+        Website Source code
+      /convert:
+        JPEG to PNG and PNG to JPEG
+        Uses Pillow
+      /resize:
+        Download resized images (Minimum 700x700, jpeg or png)
+        Uses Pillow
+      /download:
+        Vulnerabilities:
+          LFI:
+            YES (Application only check for relative path traversal, not absolute):
+              Write exploit: readFile.py
+
+  Local files:
+    /etc/passwd:
+      - "john:1000:/home/john"
+      - "dev:1001:/home/dev"
+      - "neo4j:997:/var/lib/neo4j"
+    /home/.../.ssh/id_rsa: Nothing
+    /proc/self/:
+      /environ: Empty
+      /cmdline: Empty
+    app.py: Same as source code
+    tool.py: Same as source code
+    /etc/nginx/sites-enabled/default:
+      No new subdomain
+      proxy_pass:
+        - "http://unix:/var/www/only4you.htb/only4you.sock"
+        - "http://unix:/var/www/beta.only4you.htb/beta.sock"
+    /etc/hosts: Nothing
+    Proc enumeration: Nothing
+    /var/www/only4you.htb/app.py:
+      "route('/', methods:['GET', 'POST'])": POST calls form.sendmessage
+    /var/www/only4you.htb/form.py:
+      Sends message via SMTP
+      "result = run([f'dig txt {domain}'], shell=True, stdout=PIPE)":
+        Domain is email domain, which is user controlled:
+          Regex for email does not include line checks (^ and $):
+            Write exploit:
+              injectCommand.py
+
+  Shell as www-data:
+    id: Only user data
+    env: Nothing
+    Listening ports:
+      - 22
+      - 3000
+      - 8001
+      - 33060
+      - 3306
+      - 80
+      - 7474
+      - 7687
+    Procs:
+      - nginx
+      - gunicorn --bind unix:only4you.sock
+      - gunicorn --bind unix:beta.sock
+    /opt/:
+      gogs/: Permission Denied (Owned by dev)
+      internal_app/: Permission Denied (Owned by dev)
+    /home/:
+      dev/: Permission Denied
+      john/: Permission Denied
+
+  Website (127.0.0.1:7474):
+    Neo4j Browser
+    Version: "5.6.0"
+
+  Website (127.0.0.1:3000):
+    Gogs 2023
+    Public Repositories: None
+    Users:
+      - "administrator"
+      - "john"
+
+  Website (127.0.0.1:8001):
+    Login screen:
+      Trying default creds:
+        "admin:admin": VALID CREDS
+
+    /dashboard: Nothing
+    /profile: Nothing
+    /employees: Empty 
+    /search:
+      Vulns:
+        SQL Injection:
+          Single quote creates Internal Server Error:
+            Might be using Neo4j DBMS
+            Write exploit: enumDatabase.py
+      
+  Neo4j Datbase:
+    Tables:
+      - user:
+        - admin:
+          8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918: "admin"
+        - john:
+          a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6:
+            "ThisIs4You":
+              VALID SSH CREDS
+              VALID GOGS CREDS
+
+  Website (Authenticated as john) (127.0.0.1:3000):
+    Repositories:
+      - john/Test:
+        README.md: "Test"
+        Branches:
+          "master"
+
+  Shell as john:
+    id: Only user groups
+    sudo -l:
+      "(root) NOPASSWD: /usr/bin/pip3 download http\://127.0.0.1\:3000/*.tar.gz":
+        Create pip package:
+          poisonedPipPackage/:
+            Upload built package to new Gogs repo (http://127.0.0.1:3000/john/hello):
+              sudo /usr/bin/pip3 download "http://127.0.0.1:3000/john/hello/raw/master/hello-1.tar.gz":
+                ROOT SHELL
+
