@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+service SimpleApp {
+  rpc LoginUser ( LoginUserRequest ) returns ( LoginUserResponse ) {}
+  rpc RegisterUser ( RegisterUserRequest ) returns ( RegisterUserResponse ) {}
+  rpc getInfo ( getInfoRequest ) returns ( getInfoResponse ) {}
+}
+
+message LoginUserRequest {
+    string username = 1;
+    string password = 2;
+}
+message RegisterUserRequest {
+    string username = 1;
+    string password = 2;
+}
+message getInfoRequest {
+    string id = 1;
+}
+message LoginUserResponse {
+    string message = 1;
+}
+message RegisterUserResponse {
+    string message = 1;
+}
+message getInfoResponse {
+    string message = 1;
+}

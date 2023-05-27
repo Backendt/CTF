@@ -1,0 +1,87 @@
+PC:
+  Difficulty: Easy
+  OS: Linux
+  
+  Listening ports: 22,50051
+
+  Port 50051 enumeration:
+    Unknown service/protocol:
+      Might be gRPC (Based on search results for the port number)
+    Always sends the same 46 bytes
+    Trying to trigger an error to get more informations:
+      Sending a null byte: Same response
+      Sending a newline: Same response
+      Sending very long string: Same response
+      Timing-out: "Did not receive HTTP/2 settings before handshake timeout":
+        Likely to be gRPC (gRPC is build on top of HTTP/2)
+        Curl with "--http2-prior-knowledge":
+          HTTP/2 200
+          content-type: application/grpc:
+            gRPC CONFIRMED
+
+  gRPC (50051/tcp):
+    Services:
+      grpc.reflection.v1alpha.ServerReflection
+      SimpleApp:
+        SimpleApp.RegisterUser:
+          message: "username or password must be greater than 4"
+          payload: {"username": "foobar", "password": "foobar"}
+          message: "Account created for user foobar!"
+        SimpleApp.LoginUser:
+          message: "Login unsuccessful"
+          payload: {"username": "foobar", "password": "foobar"}
+          message: "Your id is 14."
+          token:
+            b'eyJ0e...':
+              Payload: "userid: 'foobar'"
+              Bruteforcing key: No match found
+        SimpleApp.getInfo:
+          message: "Authorization Error.Missing 'token' header"
+          With token:
+            With invalid id: "'NoneType' object is not subscriptable"
+            With id 1: "The admin is working hard to fix the issues."
+            With valid id: "Will update soon."
+            With character id: "bad argument type for built-in operation"
+            With single-quote/double-quote id: "bad argument type for built-in operation"
+            With id True: "The admin is working hard to fix the issues."
+            With id 0+1: "The admin is working hard to fix the issues."
+            With id 0 OR 1=1: "The admin is working hard to fix the issues."
+            With id 1; SLEEP 4: "Unexpected <class 'sqlite3.Warning'>: You can only execute one statement at a time." 
+            Id is vulnerable to SQL injection:
+              Write exploit: grpcClient/enumerateDatabase.py
+
+  Sqlite3 Database:
+    Tables:
+      messages
+      accounts:
+        usernames:
+          sau
+          admin
+        passwords:
+          admin
+          HereIsYourPassWord1431:
+            VALID SSH PASSWORD FOR USER sau
+
+  Shell as sau:
+    id: Only user group
+    sudo -l: User may not run sudo
+    /etc/passwd: No other user
+    Listening ports: 22,68,8000,9666,50051
+    Procs:
+      "root /usr/bin/python3 /opt/app/app.py"
+      "root /usr/bin/python3 /usr/local/bin/pyload"
+    /opt/app: gRPC python app
+       
+  Website (8000/tcp, 9666/tcp):
+    Server: Cheroot/8.6.0
+    Web app: pyLoad (Open source python download manager)
+    2008-2022 pyLoad Team:
+      Copyright date was updated to 2023 in version 0.5.0b3.dev33:
+        pyLoad version is <0.5.0b3.dev33:
+          Vulnerable to CVE-2023-0057 (Clickjacking in pyLoad <0.5.0b3.dev33): Won't be useful
+          Could be vulnerable to CVE-2023-0297 (Unauthenticated Code Injection in pyLoad <0.5.0b3.dev31):
+            PYLOAD IS VULNERABLE:
+              Write exploit:
+                CVE-2023-0297.py:
+                  GOT ROOT SHELL
+
