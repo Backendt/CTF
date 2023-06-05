@@ -1,0 +1,107 @@
+Bookworm:
+  Difficulty: Insane
+  OS: Linux
+
+  Listening ports: 22,80
+
+  Website (http://bookworm.htb):
+    Redirects to: "bookworm.htb"
+    Subdomain fuzzing: Nothing
+    Server: "nginx/1.18.0 (Ubuntu)"
+    X-Powered-By: "Express"
+
+    Endpoints:
+      /shop/{bookID}:
+        SQL Injection: No
+        Command injection: No
+      /profile:
+        SQL Injection: No
+        NoSQL Injection: No
+      /basket/add:
+        SQL Injection: No
+        NoSQL Injection: No
+      /profile/avatar:
+        Detects file type with: Mime type
+      /basket/{id}/edit:
+        SQL Injection: No
+        IDOR: Yes (Can edit other users order notes)
+        XSS: Yes (in Note)
+        Put XSS in every orders:
+          Write exploit: sendJavascriptToAll.py
+          Received 3 callbacks (using image href)
+          CSP "script-src 'self'":
+            Can be bypassed by sending javascript with avatar upload
+          User-Agent: HeadlessChrome/113.0.5672.126
+          Scanning localhost websites: Nothing
+          Getting all users profile:
+            Getting all users orders:
+              "<a href='/download/6?bookIds=8'":
+                Using /download on our own orders: "Sorry, we can't offer downloads on this order!"
+                Using /download for other users order: "Sorry, we can't find that download!"
+                Using /download through XSS:
+                  Vulnerabilities:
+                    SQL Injection: No
+                    NoSQL Injection: No
+                    Command Injection: No
+                    LFI:
+                      "/etc/passwd": Not found error
+                      "../../../../../../../etc/passwd": FORBIDDEN ERROR
+                    Type juggling:
+                      True: Not found error
+                      String: Not found error
+                      Wild card: Not found error
+                      List:
+                        Single int value: Archive with the book as pdf
+                        Two int values: Archive with both books as pdf
+                        Int value first, String value second: Get first value book as pdf
+                        Int value first, LFI payload as second:
+                          Archive with book as pdf and "Unknown.pdf":
+                            Unknown.pdf contains local file included
+                            Write payload: downloadFiles.js
+
+  Local files:
+    /etc/passwd:
+      "frank:1001:/home/frank"
+      "neil:1002:/home/neil"
+    /proc/self:
+      /environ:
+        USER=www-data 
+        NODE_ENV=production
+      /cmdline: /usr/bin/node index.js
+    /etc/hosts:
+      127.0.1.1: setup
+    /home/frank/.ssh/id_rsa: Nothing
+    /home/neil/.ssh/id_rsa: Nothing
+    ./config.json: Nothing
+    ./index.js:
+      "require('./database')"
+      "require('./utils')"
+      "port=3000" 
+      "renderWithFlashes(... 'index.njk')"
+    ./database.js:
+      dialect: "mariadb"
+      user: "bookworm"
+      database: "bookworm"
+      password: "FrankTh3JobGiver":
+        VALID SSH CREDS FOR USER frank
+
+  Shell as john:
+    OS: Ubuntu 20.04.6 LTS
+    id: Only user group
+    sudo -l: User may not run sudo
+    Listening ports: 3001,43657,3306,80,22,3000
+    Running procs:
+      "root /usr/sbin/cron -f"
+      "www-data nginx"
+      "mysql /usr/sbin/mysqld"
+      "root /usr/bin/node index.js"
+      "neil /usr/bin/node index.js"
+      "root /usr/bin/google-chrome --allow-pre-commit-input --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-sync --enable-automation --enable-blink-features=IdleDetection --enable-features=NetworkServiceInProcess2 --export-tagged-pdf --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --headless --hide-scrollbars --mute-audio about:blank --no-sandbox --disable-background-networking --disable-default-apps --disable-extensions --disable-gpu --disable-sync --disable-translate --hide-scrollbars --metrics-recording-only --mute-audio --no-first-run --safebrowsing-disable-auto-update --remote-debugging-port=0 --user-data-dir=/tmp/puppeteer_dev_chrome_profile-05Ii1b"
+
+  Port 43657/tcp:
+    Google chrome debugger port
+    Port keeps changing
+    Write exploit:
+      readRootFile.sh:
+        GOT ROOT FLAG
+
